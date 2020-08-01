@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\User;
+use CreateUsersTable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class UserController extends Controller
 {
@@ -13,7 +15,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::paginate(5);
+        
+        // dd($users);
+        // dd mli7a ki tebghi tchoufi data ta3k
+        return  view('users.index', compact('users'));
+        //kima haka khir
     }
 
     /**
@@ -23,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -34,7 +41,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+          ]);
+  
+          users::create($request->all());
+          return redirect()->route('users.index')
+                          ->with('success', 'new user created successfully');
     }
 
     /**
@@ -81,4 +96,5 @@ class UserController extends Controller
     {
         //
     }
+
 }

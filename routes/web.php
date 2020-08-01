@@ -19,4 +19,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function () {
+
+    // middlewhere auth bach tkhali ghi li m connecti youdkhol hado les pages
+
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('users','UserController');
+    // tani controller li 3andeh index w create w store ....
+    // hada samouh resources
+    // 3andhom route wajed 
+});
+
